@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Senior WMS 8.12 | Processos, Indicadores e Plano de Implantação</title>
+  <style>
+:root{
+  --bg:#eef7f9; --panel:#ffffff; --panel2:#f5fbfc; --text:#12323b; --muted:#63838b; --line:#d7eef2;
+  --accent:#009ca8; --accent2:#61cbd2; --navy:#0e2c38; --danger:#ef6b73; --warn:#f1bb47; --ok:#18b886; --blue:#2f80ed;
+  --shadow:0 24px 70px rgba(0,156,168,.16); --slide-radius:34px;
+}
+[data-theme="dark"]{
+  --bg:#071419; --panel:#10242b; --panel2:#0c1d23; --text:#f1fbfc; --muted:#a8c4ca; --line:#224a54;
+  --shadow:0 24px 70px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box}
+[hidden]{display:none !important}
+
+body{margin:0;font-family:Inter,Segoe UI,Arial,sans-serif;background:radial-gradient(circle at top left,rgba(97,203,210,.28),transparent 36%),var(--bg);color:var(--text);overflow:hidden}
+.deck-shell{display:grid;grid-template-columns:300px 1fr;min-height:100vh}
+.sidebar{height:100vh;padding:24px 18px;background:rgba(255,255,255,.76);backdrop-filter:blur(18px);border-right:1px solid var(--line);display:flex;flex-direction:column;gap:18px;z-index:5}
+[data-theme="dark"] .sidebar{background:rgba(16,36,43,.82)}
+.brand-block{display:flex;gap:12px;align-items:center}.mark{width:54px;height:54px;border-radius:18px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;display:grid;place-items:center;font-weight:950;letter-spacing:.04em;box-shadow:0 12px 28px rgba(0,156,168,.28)}
+.brand-block strong{display:block;font-size:16px}.brand-block span{display:block;font-size:12px;color:var(--muted);margin-top:3px}
+.mode-switch{display:grid;grid-template-columns:1fr 1fr;gap:8px}.ghost-btn,.action-btn,.icon-btn,.nav-btn{border:1px solid var(--line);background:var(--panel);color:var(--text);border-radius:14px;padding:10px 12px;font-weight:800;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.04)}
+.ghost-btn:hover,.action-btn:hover,.icon-btn:hover,.nav-btn:hover{border-color:var(--accent);transform:translateY(-1px)}
+.slide-nav{overflow:auto;padding-right:4px;flex:1}.slide-nav button{width:100%;text-align:left;display:flex;gap:10px;align-items:center;border:1px solid transparent;background:transparent;color:var(--muted);border-radius:14px;padding:10px 11px;margin:3px 0;cursor:pointer;font-weight:760;font-size:13px}.slide-nav button .num{width:25px;height:25px;border-radius:8px;background:rgba(0,156,168,.10);display:grid;place-items:center;font-size:11px;color:var(--accent);font-weight:950}.slide-nav button.active,.slide-nav button:hover{background:rgba(97,203,210,.15);border-color:rgba(0,156,168,.2);color:var(--text)}.slide-nav button.active .num{background:var(--accent);color:#fff}
+.side-footer{padding-top:12px;border-top:1px solid var(--line)}.mini-progress{height:10px;background:rgba(0,156,168,.12);border-radius:999px;overflow:hidden}.mini-progress span{display:block;height:100%;width:5%;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:.3s}.side-footer small{display:block;color:var(--muted);margin-top:8px;font-weight:800}
+.stage{height:100vh;display:grid;grid-template-rows:1fr auto;min-width:0}.topbar{display:none!important}.topbar-title{display:none}.topbar-actions{display:none}.icon-btn{display:none;width:44px;height:44px}.action-btn{font-size:12px;text-transform:uppercase;letter-spacing:.05em}.sidebar-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}.sidebar-actions .action-btn:last-child{grid-column:1/-1}.mobile-menu-btn{display:none;position:fixed;left:14px;top:14px;z-index:30;width:44px;height:44px;border:1px solid var(--line);background:var(--panel);color:var(--text);border-radius:14px;font-size:20px;font-weight:900;box-shadow:0 10px 30px rgba(0,0,0,.14);cursor:pointer}
+.slides{position:relative;overflow:hidden;padding:10px 24px}.slide{position:absolute;inset:10px 24px 10px 24px;background:linear-gradient(145deg,rgba(255,255,255,.97),rgba(245,251,252,.96));border:1px solid rgba(0,156,168,.16);box-shadow:var(--shadow);border-radius:var(--slide-radius);padding:44px 52px;opacity:0;transform:translateX(36px) scale(.985);pointer-events:none;transition:.32s ease;overflow:hidden}.slide.active{opacity:1;transform:translateX(0) scale(1);pointer-events:auto;overflow:auto}[data-theme="dark"] .slide{background:linear-gradient(145deg,rgba(16,36,43,.98),rgba(12,29,35,.98))}
+.slide:before{content:"";position:absolute;right:-120px;top:-140px;width:360px;height:360px;border-radius:50%;background:radial-gradient(circle,rgba(97,203,210,.25),transparent 68%);pointer-events:none}.slide h1,.slide h2{position:relative;z-index:1}.slide h1{font-size:56px;line-height:1.02;margin:10px 0 20px;letter-spacing:-.045em}.slide h1 em{font-style:normal;color:var(--accent)}.slide h2{font-size:38px;line-height:1.07;margin:10px 0 24px;letter-spacing:-.035em;max-width:980px}.slide h3{font-size:18px;margin:0 0 12px}.lead{font-size:24px;line-height:1.35;color:var(--muted);max-width:780px}.eyebrow{display:inline-flex;align-items:center;gap:8px;color:var(--accent);font-weight:950;letter-spacing:.14em;text-transform:uppercase;font-size:12px}.eyebrow:before{content:"";width:36px;height:3px;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:99px}.hint,.muted{color:var(--muted)}
+.controls{height:56px;display:flex;align-items:center;justify-content:center;gap:16px;padding:4px 18px 10px;background:transparent}.controls .nav-btn{min-width:126px;padding:8px 12px;box-shadow:none}#slideCounter{font-weight:900;color:var(--muted)}
+.cover-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:34px;align-items:center;height:100%}.cover-copy p{font-size:20px;color:var(--muted);max-width:720px}.cover-meta{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}.cover-meta span,.requirements-strip span,.final-pillars span{border:1px solid var(--line);background:rgba(255,255,255,.72);border-radius:999px;padding:10px 14px;color:var(--muted);font-weight:800;font-size:12px}.logistic-visual{position:relative;min-height:420px}.dock-card{position:absolute;background:rgba(255,255,255,.88);border:1px solid var(--line);box-shadow:0 18px 40px rgba(0,0,0,.08);border-radius:24px;padding:22px;width:230px;z-index:2}.dock-card.big{width:310px;right:90px;top:42px;min-height:145px}.dock-card:nth-child(2){left:20px;top:210px}.dock-card:nth-child(3){right:35px;bottom:70px}.dock-card b{font-size:32px;color:var(--accent)}.dock-card span{display:block;color:var(--muted);margin-top:8px;font-weight:700}.dock-road{position:absolute;inset:70px 0 0 0;border:2px dashed rgba(0,156,168,.26);border-radius:40px;transform:rotate(-6deg)}.dock-road span{position:absolute;width:64px;height:38px;background:linear-gradient(135deg,var(--accent),var(--accent2));border-radius:10px;box-shadow:0 12px 22px rgba(0,156,168,.25)}.dock-road span:nth-child(1){left:50px;top:70px}.dock-road span:nth-child(2){right:50px;top:160px}.dock-road span:nth-child(3){left:220px;bottom:48px}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:30px;align-items:center}.wide-left{grid-template-columns:1.25fr .75fr}.quote-panel,.callout,.need-line,.closing-line{border-left:5px solid var(--accent);background:rgba(97,203,210,.12);border-radius:22px;padding:20px 22px;margin-top:28px;font-weight:800;line-height:1.5}.stack-cards{display:grid;gap:16px}.status-card,.info-card,.owned-card,.metric,.legend-panel,.as-card,.to-card,.data-card,.risk-card,.road-card,.ready-card,.consult-card,.chart-card{background:rgba(255,255,255,.84);border:1px solid var(--line);border-radius:24px;padding:20px;box-shadow:0 10px 24px rgba(0,0,0,.05)}[data-theme="dark"] .status-card,[data-theme="dark"] .info-card,[data-theme="dark"] .owned-card,[data-theme="dark"] .metric,[data-theme="dark"] .legend-panel,[data-theme="dark"] .as-card,[data-theme="dark"] .to-card,[data-theme="dark"] .data-card,[data-theme="dark"] .risk-card,[data-theme="dark"] .road-card,[data-theme="dark"] .ready-card,[data-theme="dark"] .consult-card,[data-theme="dark"] .chart-card,[data-theme="dark"] .dock-card{background:rgba(16,36,43,.86)}.status-card strong{font-size:28px;display:block}.status-card span,.owned-card span,.metric span{color:var(--muted);line-height:1.45}.danger{border-color:rgba(239,107,115,.35)!important}.warn{border-color:rgba(241,187,71,.45)!important}.ok{border-color:rgba(24,184,134,.45)!important}.info{border-color:rgba(47,128,237,.35)!important}.fact{background:rgba(24,184,134,.12);color:var(--ok)}.inferred{background:rgba(47,128,237,.12);color:var(--blue)}.open{background:rgba(241,187,71,.16);color:#b77c00}.goal{background:rgba(0,156,168,.12);color:var(--accent)}.badge{display:inline-flex;border-radius:999px;padding:5px 9px;font-size:10px;font-weight:950;margin-right:6px;letter-spacing:.05em}
+.metrics-row{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin:18px 0 28px}.metric b{display:block;font-size:38px;color:var(--accent)}.pyramid-wrap{display:grid;grid-template-columns:1.05fr .95fr;gap:24px;align-items:center}.pyramid{display:flex;flex-direction:column;gap:10px;align-items:center}.pyramid div{height:72px;border-radius:18px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;display:grid;place-items:center;text-align:center;font-weight:950;padding:0 20px;box-shadow:0 16px 30px rgba(0,156,168,.18)}.pyramid div:nth-child(1){width:72%}.pyramid div:nth-child(2){width:86%;opacity:.9}.pyramid div:nth-child(3){width:100%;opacity:.78}.legend-panel p{line-height:1.45;color:var(--muted)}
+.pain-map{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.pain-card{border:1px solid var(--line);background:rgba(255,255,255,.82);border-radius:22px;padding:16px;min-height:125px}.pain-card b{display:block;font-size:15px;margin-bottom:8px}.pain-card span{color:var(--muted);font-size:13px;line-height:1.45}.pain-card:before{content:attr(data-icon);font-size:24px;display:block;margin-bottom:8px}.impact-table{display:grid;gap:10px}.impact-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;align-items:stretch}.impact-row>div{border:1px solid var(--line);background:rgba(255,255,255,.72);padding:14px;border-radius:16px;color:var(--muted);line-height:1.35}.impact-row.header>div{background:var(--navy);color:#fff;font-weight:950;text-transform:uppercase;font-size:12px;letter-spacing:.06em}.owned-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.owned-card b{display:block;margin-bottom:8px;color:var(--accent)}.need-line{text-align:center;font-size:18px}.flow{display:grid;grid-template-columns:repeat(6,1fr);gap:12px}.flow-step{position:relative;border:1px solid var(--line);background:rgba(255,255,255,.82);border-radius:20px;padding:16px;min-height:118px;cursor:pointer;transition:.2s}.flow-step:hover{border-color:var(--accent);transform:translateY(-4px);box-shadow:0 14px 28px rgba(0,156,168,.16)}.flow-step b{display:block;color:var(--accent);font-size:14px}.flow-step span{display:block;margin-top:8px;color:var(--muted);font-size:12px;line-height:1.35}.flow-step .tag-mini{position:absolute;right:10px;top:10px;background:rgba(0,156,168,.1);color:var(--accent);border-radius:999px;padding:4px 8px;font-size:10px;font-weight:950}
+.as-to-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}.as-to-grid.compact{margin-top:22px}.as-card h3{color:var(--danger)}.to-card h3{color:var(--ok)}.as-card li,.to-card li{margin:10px 0;color:var(--muted);line-height:1.4}.requirements-strip{display:flex;gap:10px;flex-wrap:wrap;margin-top:24px}.process-lane,.timeline-process{display:grid;grid-template-columns:repeat(8,1fr);gap:8px;margin:28px 0}.process-lane div,.timeline-process div{background:linear-gradient(135deg,rgba(0,156,168,.16),rgba(97,203,210,.10));border:1px solid rgba(0,156,168,.24);border-radius:18px;min-height:90px;display:grid;place-items:center;text-align:center;font-weight:950;color:var(--accent);padding:12px}.three-col,.bottom-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.info-card p{color:var(--muted);line-height:1.5}.warehouse-map{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin:28px 0}.aisle{height:170px;border-radius:24px;background:repeating-linear-gradient(135deg,rgba(0,156,168,.14) 0 14px,rgba(97,203,210,.08) 14px 28px);border:1px solid rgba(0,156,168,.25);display:flex;flex-direction:column;justify-content:space-between;padding:20px}.aisle span{font-weight:950;color:var(--accent)}.aisle b{font-size:20px}.timeline-process{grid-template-columns:repeat(5,1fr)}.timeline-process div{min-height:130px}.timeline-process b{font-size:19px}.timeline-process span{display:block;color:var(--muted);font-size:12px;margin-top:7px}
+.data-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.data-card b{display:block;color:var(--accent);margin-bottom:8px}.data-card span{color:var(--muted);font-size:13px;line-height:1.4}.architecture{height:390px;position:relative;margin-top:14px}.arch-lines{position:absolute;inset:0;width:100%;height:100%;z-index:1}.arch-lines path{fill:none;stroke:rgba(0,156,168,.4);stroke-width:4;stroke-linecap:round;stroke-dasharray:8 10}.node{position:absolute;z-index:2;width:170px;height:96px;border-radius:22px;background:rgba(255,255,255,.92);border:1px solid var(--line);box-shadow:0 18px 34px rgba(0,0,0,.08);display:grid;place-items:center;text-align:center;font-weight:950;color:var(--accent)}.node span{display:block;font-size:12px;color:var(--muted);font-weight:700;margin-top:4px}.node.client{left:40px;top:45px}.node.portal{left:360px;top:45px}.node.wms{left:690px;top:45px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff}.node.wms span{color:#e8ffff}.node.mobile{left:120px;bottom:35px}.node.erp{right:120px;bottom:35px}.node.bi{left:50%;transform:translateX(-50%);bottom:0}
+.filters-bar{display:grid;grid-template-columns:2fr 1fr 1fr;gap:12px;margin-bottom:16px}.filters-bar input,.filters-bar select{height:46px;border:1px solid var(--line);border-radius:15px;background:var(--panel);color:var(--text);padding:0 14px;font-weight:700}.req-table{display:grid;gap:10px;max-height:500px;overflow:auto;padding-right:8px}.req-row{display:grid;grid-template-columns:90px 170px 1fr 110px;gap:10px;align-items:center;border:1px solid var(--line);background:rgba(255,255,255,.72);border-radius:16px;padding:12px}.req-row b{color:var(--accent)}.req-row span{color:var(--muted);font-size:13px}.priority{border-radius:999px;padding:6px 10px;text-align:center;font-size:11px;font-weight:950}.priority.Alta{background:rgba(239,107,115,.12);color:var(--danger)}.priority.Média{background:rgba(241,187,71,.16);color:#b77c00}.priority.Em-aberto{background:rgba(47,128,237,.12);color:var(--blue)}
+.indicator-layout{display:grid;grid-template-columns:1.2fr .8fr;gap:24px}.kpi-tree{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.kpi-node{border:1px solid var(--line);background:rgba(255,255,255,.78);border-radius:18px;padding:14px}.kpi-node b{display:block;color:var(--accent);margin-bottom:8px}.kpi-node span{display:block;color:var(--muted);font-size:13px;line-height:1.45}.radar{height:320px;display:grid;place-items:center}.radar svg{max-width:100%;height:300px}.radar text{font-size:10px;fill:var(--muted);font-weight:800}.radar polygon.bg{fill:rgba(0,156,168,.06);stroke:rgba(0,156,168,.18)}.radar polygon.val{fill:rgba(0,156,168,.28);stroke:var(--accent);stroke-width:2}.chart-card small{color:var(--muted);display:block;line-height:1.4}.risk-board{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.risk-card b{display:block;color:var(--danger);margin-bottom:8px}.risk-card p{color:var(--muted);line-height:1.4;margin:0 0 12px}.risk-card small{font-weight:900;color:var(--accent)}
+.gantt{position:relative;height:225px;border:1px solid var(--line);border-radius:24px;background:rgba(255,255,255,.62);overflow:hidden;padding:24px 20px}.gantt:before{content:"";position:absolute;left:20px;right:20px;top:50%;height:2px;background:rgba(0,156,168,.18)}.gantt-item{position:absolute;top:62px;height:92px;border-radius:24px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;padding:14px;box-shadow:0 12px 24px rgba(0,156,168,.24)}.gantt-item b{display:block;font-size:18px}.gantt-item span{font-size:12px;line-height:1.35;display:block;margin-top:6px}.roadmap-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:16px}.road-card b{color:var(--accent)}.road-card p{color:var(--muted);font-size:13px;line-height:1.4}.readiness{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.ready-card{min-height:160px}.ready-card b{display:block;font-size:18px}.ready-card .light{width:18px;height:18px;border-radius:50%;display:inline-block;margin-right:8px;vertical-align:-3px}.light.red{background:var(--danger);box-shadow:0 0 0 8px rgba(239,107,115,.12)}.light.yellow{background:var(--warn);box-shadow:0 0 0 8px rgba(241,187,71,.16)}.light.green{background:var(--ok);box-shadow:0 0 0 8px rgba(24,184,134,.12)}.ready-card p{color:var(--muted);line-height:1.4}.consultant-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.consult-card b{display:block;color:var(--accent);margin-bottom:8px}.consult-card span{color:var(--muted);font-size:13px;line-height:1.45}.conclusion{display:grid;place-items:center}.final-card{text-align:center;max-width:880px}.final-card h2{font-size:64px;margin:20px auto}.final-card p{font-size:24px;color:var(--muted);line-height:1.35}.final-pillars{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:28px 0}.final-card small{color:var(--muted);font-weight:800}
+.modal-backdrop{position:fixed;inset:0;background:rgba(4,15,18,.65);z-index:50;display:grid;place-items:center;padding:24px}.modal{position:relative;width:min(960px,92vw);max-height:86vh;overflow:auto;background:var(--panel);color:var(--text);border:1px solid var(--line);border-radius:28px;padding:32px;box-shadow:0 30px 90px rgba(0,0,0,.3)}.modal-close{position:absolute;right:16px;top:14px;border:0;background:rgba(0,156,168,.12);color:var(--text);width:36px;height:36px;border-radius:50%;font-size:22px;cursor:pointer}.modal h2{margin:0 0 14px;font-size:30px}.modal-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.modal-box{border:1px solid var(--line);border-radius:18px;padding:15px;background:var(--panel2)}.modal-box b{display:block;color:var(--accent);margin-bottom:6px}.modal-box span{color:var(--muted);line-height:1.45;font-size:14px}.source-panel{position:fixed;right:24px;top:80px;width:min(460px,92vw);z-index:60;background:var(--panel);border:1px solid var(--line);border-radius:28px;padding:28px;box-shadow:0 22px 70px rgba(0,0,0,.2)}.source-panel p{color:var(--muted);line-height:1.45}
+/* Garante que painéis e modais ocultos não bloqueiem a apresentação */
+.modal-backdrop[hidden],
+.source-panel[hidden]{display:none!important}
+
+.technical-extra{display:none}.technical .technical-extra{display:block}.technical .executive-only{display:none!important}
+@media(max-width:1100px){body{overflow:auto}.deck-shell{grid-template-columns:1fr}.sidebar{position:fixed;left:-310px;transition:.25s;box-shadow:0 20px 60px rgba(0,0,0,.2)}.sidebar.open{left:0}.stage{min-height:100vh}.mobile-menu-btn{display:block}.slide{inset:10px;padding:32px 26px}.cover-grid,.two-col,.pyramid-wrap,.indicator-layout,.as-to-grid{grid-template-columns:1fr}.metrics-row,.owned-grid,.pain-map,.data-grid,.risk-board,.readiness,.consultant-grid{grid-template-columns:repeat(2,1fr)}.flow{grid-template-columns:repeat(3,1fr)}.process-lane,.timeline-process{grid-template-columns:repeat(2,1fr)}.architecture{transform:scale(.82);transform-origin:left top;height:330px}.topbar-title{display:none}}
+@media(max-width:700px){.slides{padding:8px}.slide{inset:8px;border-radius:24px;padding:28px 20px}.slide h1{font-size:38px}.slide h2{font-size:28px}.metrics-row,.owned-grid,.pain-map,.data-grid,.risk-board,.readiness,.consultant-grid,.three-col,.bottom-grid,.kpi-tree,.roadmap-cards{grid-template-columns:1fr}.flow{grid-template-columns:1fr}.filters-bar,.req-row{grid-template-columns:1fr}.topbar-actions{display:none}.controls{gap:10px}.nav-btn{min-width:auto}.modal-grid{grid-template-columns:1fr}}
+@media print{body{overflow:visible;background:#fff}.deck-shell{display:block}.sidebar,.topbar,.mobile-menu-btn,.controls,.modal-backdrop,.source-panel{display:none!important}.slides{overflow:visible;padding:0}.slide{position:relative;inset:auto;opacity:1;transform:none;page-break-after:always;height:100vh;box-shadow:none;border-radius:0;overflow:hidden;background:#fff;color:#111}.slide:before{display:none}.slide *{print-color-adjust:exact;-webkit-print-color-adjust:exact}}
+
+
+/* Ajuste de legibilidade — Jornada WMS ponta a ponta */
+.flow{
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:14px;
+  align-items:stretch;
+}
+.flow-step{
+  width:100%;
+  min-width:0;
+  min-height:152px;
+  padding:50px 18px 18px;
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  justify-content:flex-start;
+  text-align:left;
+  overflow:hidden;
+}
+.flow-step .tag-mini{
+  top:14px;
+  left:14px;
+  right:auto;
+  max-width:calc(100% - 28px);
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.flow-step b{
+  width:100%;
+  font-size:14px;
+  line-height:1.32;
+  overflow-wrap:anywhere;
+  word-break:normal;
+}
+.flow-step > span:not(.tag-mini){
+  width:100%;
+  margin-top:10px;
+  font-size:12px;
+  line-height:1.45;
+  overflow-wrap:anywhere;
+  word-break:normal;
+}
+@media(max-width:1100px){
+  .flow{grid-template-columns:repeat(2,minmax(0,1fr));}
+}
+@media(max-width:700px){
+  .flow{grid-template-columns:1fr;}
+  .flow-step{min-height:auto;}
+}
+
+</style>
+</head>
+<body>
+  <div class="deck-shell" id="deckShell">
+    <aside class="sidebar" id="sidebar">
+      <div class="brand-block">
+        <div class="mark">MA</div>
+        <div>
+          <strong>Mais Armazém</strong>
+          <span>Senior WMS 8.12</span>
+        </div>
+      </div>
+      <div class="mode-switch">
+        <button id="modeBtn" class="ghost-btn" title="Alternar visão executiva/técnica">Visão executiva</button>
+        <button id="themeBtn" class="ghost-btn" title="Alternar tema claro/escuro">Tema</button>
+      </div>
+      <div class="sidebar-actions" aria-label="Ações da apresentação">
+        <button id="sourcesBtn" class="action-btn" title="Exibir fontes e evidências">Fontes</button>
+        <button id="printBtn" class="action-btn" title="Imprimir ou salvar em PDF">PDF</button>
+        <button id="fullscreenBtn" class="action-btn" title="Modo tela cheia">Tela cheia</button>
+      </div>
+      <nav id="slideNav" class="slide-nav" aria-label="Navegação dos slides"></nav>
+      <div class="side-footer">
+        <div class="mini-progress"><span id="progressBar"></span></div>
+        <small id="progressText">Slide 1 de 20</small>
+      </div>
+    </aside>
+
+    <button id="menuBtn" class="mobile-menu-btn" title="Abrir/fechar menu" aria-label="Abrir menu de slides">☰</button>
+
+    <main class="stage">
+      <section class="slides" id="slides">
+        <article class="slide cover" data-title="Capa">
+          <div class="cover-grid">
+            <div class="cover-copy">
+              <span class="eyebrow">Mais Armazém | Grupo MNGT</span>
+              <h1>Senior WMS 8.12<br><em>Processos, Indicadores e Plano de Implantação</em></h1>
+              <p>Levantamento de requisitos, AS-IS, TO-BE, backlog e prontidão para Go Live.</p>
+              <div class="cover-meta">
+                <span>Base principal: Análise P.O.</span>
+                <span>Área: Processos, Qualidade e Inovação</span>
+                <span>2026</span>
+              </div>
+            </div>
+            <div class="logistic-visual" aria-label="Visual logístico">
+              <div class="dock-card big"><b>WMS</b><span>Processo antes da parametrização</span></div>
+              <div class="dock-card"><b>MWMS</b><span>Coletor + bipagem</span></div>
+              <div class="dock-card"><b>ERP</b><span>Fiscal + contratos</span></div>
+              <div class="dock-road"><span></span><span></span><span></span></div>
+            </div>
+          </div>
+        </article>
+
+        <article class="slide" data-title="Mensagem executiva">
+          <div class="two-col wide-left">
+            <div>
+              <span class="eyebrow">Diagnóstico executivo</span>
+              <h2>O desafio não é apenas ativar o sistema.</h2>
+              <p class="lead">É desenhar, parametrizar, validar e governar a operação que o Senior WMS deverá executar todos os dias.</p>
+              <div class="quote-panel">A implantação só se sustenta quando processo, cadastro, fiscal, operação, contrato e indicador falam a mesma língua.</div>
+            </div>
+            <div class="stack-cards">
+              <div class="status-card danger"><strong>Hoje</strong><span>Operação parcial, manual e dependente de pessoas.</span></div>
+              <div class="status-card warn"><strong>Risco</strong><span>WMS repetir o caos: dados incompletos, exceções sem dono e Go Live inseguro.</span></div>
+              <div class="status-card ok"><strong>Direção</strong><span>Processo padrão + cadastros mestres + testes integrados + indicadores.</span></div>
+            </div>
+          </div>
+        </article>
+
+        <article class="slide" data-title="Base da análise">
+          <span class="eyebrow">Fundamentação</span>
+          <h2>Base consolidada: documentação, operação e evidência técnica</h2>
+          <div class="metrics-row">
+            <div class="metric"><b>12</b><span>fontes consolidadas</span></div>
+            <div class="metric"><b>16</b><span>processos no catálogo</span></div>
+            <div class="metric"><b>≈200</b><span>regras de negócio</span></div>
+            <div class="metric"><b>44</b><span>histórias de usuário</span></div>
+            <div class="metric"><b>4</b><span>ondas de implantação</span></div>
+          </div>
+          <div class="pyramid-wrap">
+            <div class="pyramid">
+              <div>Nível 1 · Análise P.O. Senior WMS Mais Armazém</div>
+              <div>Nível 2 · Checklists, POPs, ITs, testes e evidências operacionais</div>
+              <div>Nível 3 · HTML, dashboards e referências de UX corporativa</div>
+            </div>
+            <div class="legend-panel">
+              <h3>Classificação usada na apresentação</h3>
+              <p><span class="badge fact">FATO</span> Informação registrada no material.</p>
+              <p><span class="badge inferred">INFERIDO</span> Conclusão lógica ainda dependente de validação.</p>
+              <p><span class="badge open">EM ABERTO</span> Decisão, teste ou confirmação pendente.</p>
+              <p><span class="badge goal">META PROPOSTA</span> Referência para implantação quando não há meta formal.</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="slide" data-title="AS-IS">
+          <span class="eyebrow">Onde estamos</span>
+          <h2>Retrato atual — operação funciona, mas o sistema ainda não governa</h2>
+          <div class="pain-map" id="painMap"></div>
+          <div class="callout danger"><b>Ponto central:</b> o WMS está parcialmente implantado; o processo ainda depende de papel, planilha, e-mail, WhatsApp, Uno e conhecimento tácito.</div>
+        </article>
+
+        <article class="slide" data-title="Impactos">
+          <span class="eyebrow">Impacto empresarial</span>
+          <h2>Problema operacional vira risco de produtividade, fiscal e receita</h2>
+          <div class="impact-table" id="impactTable"></div>
+        </article>
+
+        <article class="slide" data-title="O que já possuímos">
+          <span class="eyebrow">Ativos do projeto</span>
+          <h2>Já existe uma base relevante — falta transformar em operação sistêmica</h2>
+          <div class="owned-grid">
+            <div class="owned-card"><b>Senior WMS 8.12 contratado</b><span>WMS, MWMS/coletor e integração com ERP Senior.</span></div>
+            <div class="owned-card"><b>Cliente âncora e depositantes mapeados</b><span>GWM, Electrolux, OJI e CBB como referências operacionais.</span></div>
+            <div class="owned-card"><b>AS-IS e TO-BE documentados</b><span>Processos, dores, regras, riscos, cadastros e backlog.</span></div>
+            <div class="owned-card"><b>Checklist técnico HTML</b><span>Base de validação por módulos, caminhos de tela e cronograma.</span></div>
+            <div class="owned-card"><b>ITs/POPs em construção</b><span>Recebimento, expedição, put away, picking e programação.</span></div>
+            <div class="owned-card"><b>Direção de indicadores</b><span>Árvore de KPIs definida; captura ainda precisa ser estruturada.</span></div>
+          </div>
+          <div class="need-line"><span>Agora a conversa com o consultor deve sair de “o que o sistema faz?” para “como vamos fazer isso funcionar com regra, dado, teste e aceite?”</span></div>
+        </article>
+
+        <article class="slide" data-title="Jornada WMS">
+          <span class="eyebrow">Macrofluxo clicável</span>
+          <h2>Jornada WMS ponta a ponta — processo antes de tela</h2>
+          <p class="hint">Clique em qualquer etapa para abrir objetivo, AS-IS, TO-BE, sistemas e critérios de aceite.</p>
+          <div class="flow" id="flow"></div>
+        </article>
+
+        <article class="slide" data-title="Programação e portaria">
+          <span class="eyebrow">Processo crítico 01</span>
+          <h2>Programação, agendamento e portaria</h2>
+          <div class="as-to-grid">
+            <div class="as-card"><h3>AS-IS</h3><ul><li>Programação chega por e-mail, WhatsApp, SAP ou na hora.</li><li>Cadastro manual de placa, motorista, NF e chegada.</li><li>Sem cota sistêmica por cliente, turno ou janela.</li><li>No-Show registrado sem tratativa automática.</li></ul></div>
+            <div class="to-card"><h3>TO-BE no WMS/Portal</h3><ul><li>Programação D-2 com janelas, cotas e classes de serviço.</li><li>Pré-cadastro de NF, placa, motorista, transportadora e tipo de carga.</li><li>Check-in/check-out por turno e painel programado × executado.</li><li>No-Show com tolerância, fila, notificação e consequência contratual.</li></ul></div>
+          </div>
+          <div class="requirements-strip">
+            <span>Portal do Depositante</span><span>Agenda/Yard</span><span>ERP Portaria</span><span>Gestão de Contrato</span><span>BI de turno</span>
+          </div>
+        </article>
+
+        <article class="slide" data-title="Recebimento">
+          <span class="eyebrow">Processo crítico 02</span>
+          <h2>Recebimento e conferência: fechar a brecha peso × volume</h2>
+          <div class="process-lane">
+            <div>Chegada</div><div>XML / NF</div><div>DACTE / Lacre</div><div>Pesagem</div><div>Bipagem</div><div>MRE</div><div>Divergência</div><div>Liberação</div>
+          </div>
+          <div class="three-col">
+            <div class="info-card"><h3>Gaps atuais</h3><p>Conferência por volume, sem item-a-item; peso não confrontado; registro de autoria e data/hora insuficiente.</p></div>
+            <div class="info-card"><h3>Requisito no sistema</h3><p>Ordem de Recebimento por XML, mapa de quantidade, bipagem no MWMS, fotos vinculadas e confronto peso × volume.</p></div>
+            <div class="info-card"><h3>Critério de aceite</h3><p>NF recebida sem redigitação, rastreabilidade 100%, divergência registrada e motorista liberado apenas com processo encerrado.</p></div>
+          </div>
+        </article>
+
+        <article class="slide" data-title="Armazenagem">
+          <span class="eyebrow">Processo crítico 03</span>
+          <h2>Armazenagem, Put Away e layout dinâmico</h2>
+          <div class="warehouse-map">
+            <div class="aisle"><span>RUA A</span><b>ABC alto</b></div>
+            <div class="aisle"><span>RUA B</span><b>Staging</b></div>
+            <div class="aisle"><span>RUA C</span><b>Quarentena</b></div>
+            <div class="aisle"><span>RUA D</span><b>Pulmão</b></div>
+          </div>
+          <div class="bottom-grid">
+            <div class="info-card"><h3>Necessário no WMS</h3><p>Convocação ativa, endereço com código de barras, capacidade por SKU, status livre/ocupado/bloqueado e regra de empilhamento.</p></div>
+            <div class="info-card"><h3>Dados críticos</h3><p>SKU por embalagem, unidade de conversão, peso, volumetria, lote, endereço, equipamento e restrição física do galpão.</p></div>
+            <div class="info-card"><h3>Ganho esperado</h3><p>Eliminar endereçamento “de cabeça” e reduzir movimentação improdutiva com curva ABC e mapa de calor.</p></div>
+          </div>
+        </article>
+
+        <article class="slide" data-title="Expedição">
+          <span class="eyebrow">Processo crítico 04</span>
+          <h2>Separação, carregamento, expedição e faturamento</h2>
+          <div class="timeline-process">
+            <div><b>Pedido/XML</b><span>sem digitação</span></div>
+            <div><b>Onda</b><span>FIFO/FEFO/Lote/SKU</span></div>
+            <div><b>Picking</b><span>convocação ativa</span></div>
+            <div><b>Double-check</b><span>no carregamento</span></div>
+            <div><b>NF saída</b><span>CFOP parametrizado</span></div>
+          </div>
+          <div class="as-to-grid compact">
+            <div class="as-card"><h3>Não pode continuar</h3><p>Separação parada no papel, expedição sem status sistêmico e CFOP informado manualmente.</p></div>
+            <div class="to-card"><h3>Deve funcionar</h3><p>Pedido, separação, conferência, carregamento e emissão fiscal com status, regra, responsável e rastreabilidade.</p></div>
+          </div>
+        </article>
+
+        <article class="slide" data-title="Cadastros">
+          <span class="eyebrow">Parametrização</span>
+          <h2>Cadastros mestres que precisam existir antes do Go Live</h2>
+          <div class="data-grid" id="dataGrid"></div>
+          <div class="callout warn"><b>Regra de implantação:</b> distinguir parametrização de tombamento. Primeiro cadastrar nomenclatura e regras; depois carregar dados reais com validação.</div>
+        </article>
+
+        <article class="slide" data-title="Integrações">
+          <span class="eyebrow">Arquitetura necessária</span>
+          <h2>Integrações e módulos que precisam conversar</h2>
+          <div class="architecture">
+            <div class="node client">Depositante<br><span>XML, pedido, janela</span></div>
+            <div class="node portal">Portal<br><span>pré-cadastro</span></div>
+            <div class="node wms">Senior WMS<br><span>recebe, aloca, separa</span></div>
+            <div class="node mobile">MWMS<br><span>bipagem/fotos</span></div>
+            <div class="node erp">ERP Senior<br><span>fiscal/contrato</span></div>
+            <div class="node bi">BI<br><span>indicadores</span></div>
+            <svg class="arch-lines" viewBox="0 0 900 360" preserveAspectRatio="none"><path d="M120 95 C260 70 260 70 380 95"/><path d="M510 95 C620 60 650 60 780 95"/><path d="M450 145 C450 210 330 240 230 265"/><path d="M450 145 C450 220 560 245 680 265"/><path d="M450 145 C450 275 455 300 455 325"/></svg>
+          </div>
+          <div class="requirements-strip"><span>XML</span><span>Balança</span><span>Etiquetas/UZ</span><span>Situator/City Water</span><span>SAP/ERP cliente</span><span>Sankhya quando aplicável</span></div>
+        </article>
+
+        <article class="slide" data-title="Requisitos">
+          <span class="eyebrow">Funcionalidades</span>
+          <h2>Requisitos funcionais para conversar com a Senior</h2>
+          <div class="filters-bar">
+            <input id="reqSearch" placeholder="Filtrar requisito, módulo ou dor..." />
+            <select id="moduleFilter"><option value="all">Todos os módulos</option></select>
+            <select id="statusFilter"><option value="all">Todos os status</option><option>Alta</option><option>Média</option><option>Em aberto</option></select>
+          </div>
+          <div class="req-table" id="reqTable"></div>
+        </article>
+
+        <article class="slide" data-title="Indicadores">
+          <span class="eyebrow">Gestão por dados</span>
+          <h2>Indicadores necessários — hoje a captura ainda precisa nascer no WMS</h2>
+          <div class="indicator-layout">
+            <div class="kpi-tree" id="kpiTree"></div>
+            <div class="chart-card">
+              <h3>Radar qualitativo de maturidade</h3>
+              <div id="radar" class="radar"></div>
+              <small>Leitura qualitativa para priorização. Não representa resultado operacional medido.</small>
+            </div>
+          </div>
+          <div class="callout info"><b>Quando não houver dado:</b> “Dado ainda não disponível — necessário estruturar captura no WMS.”</div>
+        </article>
+
+        <article class="slide" data-title="Riscos e lacunas">
+          <span class="eyebrow">Controle de implantação</span>
+          <h2>Riscos, lacunas e decisões pendentes</h2>
+          <div class="risk-board" id="riskBoard"></div>
+        </article>
+
+        <article class="slide" data-title="Roadmap">
+          <span class="eyebrow">Plano de implantação</span>
+          <h2>Roadmap em ondas — do fundamento ao BI</h2>
+          <div class="gantt" id="gantt"></div>
+          <div class="roadmap-cards" id="roadmapCards"></div>
+        </article>
+
+        <article class="slide" data-title="Go Live">
+          <span class="eyebrow">Prontidão</span>
+          <h2>Semáforo de Go Live — o que precisa estar verde</h2>
+          <div class="readiness" id="readiness"></div>
+        </article>
+
+        <article class="slide" data-title="Agenda com consultor">
+          <span class="eyebrow">Reunião técnica</span>
+          <h2>O que queremos validar com o consultor Senior</h2>
+          <div class="consultant-grid" id="consultantGrid"></div>
+          <div class="closing-line">Objetivo da reunião: sair com responsáveis, datas, critérios de aceite e travas técnicas oficialmente encaminhadas.</div>
+        </article>
+
+        <article class="slide conclusion" data-title="Fechamento">
+          <div class="final-card">
+            <span class="eyebrow">Mensagem final</span>
+            <h2>Sabemos o que precisamos.</h2>
+            <p>Agora precisamos transformar o mapeamento em configuração validada, operação treinada e indicador confiável.</p>
+            <div class="final-pillars">
+              <span>Processo</span><span>Cadastro</span><span>Integração</span><span>Teste</span><span>Governança</span>
+            </div>
+            <small>Elaboração: Gustavo Farias · Grupo MNGT · Mais Armazém</small>
+          </div>
+        </article>
+      </section>
+
+      <footer class="controls">
+        <button id="prevBtn" class="nav-btn">← Anterior</button>
+        <span id="slideCounter">1 / 20</span>
+        <button id="nextBtn" class="nav-btn">Próximo →</button>
+      </footer>
+    </main>
+  </div>
+
+  <div class="modal-backdrop" id="modalBackdrop" hidden>
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <button class="modal-close" id="modalClose">×</button>
+      <div id="modalContent"></div>
+    </div>
+  </div>
+
+  <div class="source-panel" id="sourcePanel" hidden>
+    <button class="modal-close" id="sourceClose">×</button>
+    <h3>Fontes e evidências utilizadas</h3>
+    <p><b>Fonte principal:</b> Analise_PO_Senior_WMS_Mais_Armazem_v03.docx — levantamento de requisitos, AS-IS, TO-BE, funcionalidades, histórias, backlog, riscos e indicadores.</p>
+    <p><b>Complemento:</b> briefing do arquivo Pasted text (3).txt — estrutura desejada da apresentação e requisitos de interatividade.</p>
+    <p><b>Referência visual/técnica:</b> main(1).html — checklist WMS Senior, paleta, componentes, navegação e módulos técnicos.</p>
+    <p class="muted">Classificação visual aplicada: FATO, INFERIDO, EM ABERTO e META PROPOSTA. Indicadores sem dado real são apresentados como necessidade de captura, não como resultado.</p>
+  </div>
+
+  <script>
+const slideEls = [...document.querySelectorAll('.slide')];
+let current = Number(localStorage.getItem('wms-ma-current-slide') || 0);
+let technical = localStorage.getItem('wms-ma-mode') === 'technical';
+const savedTheme = localStorage.getItem('wms-ma-theme');
+if(savedTheme) document.documentElement.dataset.theme = savedTheme;
+if(technical) document.body.classList.add('technical');
+
+const painItems = [
+  ['📄','Processo','Operação manual, boletim em papel e atividades fora do WMS.'],
+  ['👥','Pessoas','Conhecimento concentrado: endereçamento, programação e viabilidade dependem de poucas pessoas.'],
+  ['🖥️','Sistema','Senior WMS parcial/instável; uso paralelo de Uno, Excel, e-mail e WhatsApp.'],
+  ['🧱','Dados','Taxonomia, SKU, volumetria, equipamentos, turnos e endereços incompletos.'],
+  ['🔌','Integração','Bugs e lacunas em XML, unidade de medida, NF duplicada, etiqueta e balança.'],
+  ['⚖️','Fiscal','CFOP manual/parcial e risco de tratamento incorreto do armazém geral.'],
+  ['🚚','Cliente','Sem pré-cadastro e programação confiável; alteração de última hora.'],
+  ['🧭','Governança','Sem modelo robusto de janelas, No-Show, capacidade e critérios de aceite.'],
+  ['💰','Receita','Serviços extras executados sem registro/cobrança: reetiquetagem, remanuseio, urgência.']
+];
+
+const impacts = [
+  ['Conferência por volume sem peso','Divergência física/fiscal não detectada no recebimento','Risco fiscal, estoque incorreto e perda de confiança'],
+  ['Endereçamento “de cabeça”','Dependência de colaborador e movimentação desnecessária','Baixa produtividade e alto risco no turnover'],
+  ['Sem programação D-2','Operação reativa, caminhões acumulados, prioridade indefinida','SLA instável e capacidade não governada'],
+  ['Cadastros incompletos','Convocação ativa, curva ABC e separação não performam','WMS não automatiza; vira ferramenta manual'],
+  ['Faturamento/CFOP manual','Saída fiscal depende de interpretação e retrabalho','Multa, bloqueio de operação e atraso no faturamento'],
+  ['Sem indicadores estruturados','Gestão decide por percepção, não por dado','Sem previsibilidade de capacidade, custo e nível de serviço']
+];
+
+const flowData = [
+  {n:'01',title:'Contratos e regras do depositante',status:'Em desenho',goal:'Registrar perfil comercial, fiscal, operacional, SLA, janelas, serviços e regras de cobrança.',trigger:'Onboarding ou revisão contratual.',inputs:'Book do cliente, contrato, tabela de serviços, perfil de carga, regras fiscais.',asis:'Informação comercial e pricing ainda muito dependentes de pessoas e arquivos locais.',tobe:'Gestão de Contrato + CRM/Pricing versionado + regras operacionais replicadas ao WMS.',systems:'ERP Senior, Comercial, Gestão de Contrato, CRM/Pricing, BI.',risks:'Vender operação sem saber capacidade, margem ou esforço real.',accept:'Contrato ativo, serviço faturável cadastrado, SLA e regras aprovadas.'},
+  {n:'02',title:'Programação e agendamento',status:'Prioridade Onda 2',goal:'Programar D-2, controlar janelas, cotas, classes de serviço e capacidade por turno.',trigger:'Solicitação de recebimento/expedição do depositante.',inputs:'NF, pedido, tipo de carga, placa, motorista, janela, prioridade.',asis:'E-mail, WhatsApp, SAP ou chegada sem programação estruturada.',tobe:'Agenda com cota por cliente, status e painel programado × executado.',systems:'WMS/Yard, Portal do Depositante, ERP, BI.',risks:'Operação reativa e No-Show sem consequência.',accept:'Janela reservada, status atualizado e check-in/check-out registrado.'},
+  {n:'03',title:'Pré-cadastro',status:'Onda 3',goal:'Fazer o cliente informar NF, placa, motorista e tipo de operação antes da chegada.',trigger:'Carga prevista ou pedido de coleta.',inputs:'XML/NF, dados do veículo, motorista, transportadora, lacre, pedido.',asis:'Portaria/recebimento redigitam informações.',tobe:'Portal do Depositante gera pré-recebimento/pré-agendamento.',systems:'Portal, WMS, ERP, Integrações cliente.',risks:'Retrabalho, fila e falta de visibilidade antes da chegada.',accept:'Pré-cadastro válido e disponível para portaria e recebimento.'},
+  {n:'04',title:'Portaria e check-in',status:'Parcial',goal:'Registrar entrada, validar agendamento, liberar acesso e iniciar relógio operacional.',trigger:'Veículo chega à portaria.',inputs:'Placa, documento, motorista, NF, janela, autorização.',asis:'Excel + Situator/City Water + papel.',tobe:'Cadastro no ERP/portaria com integração e status operacional.',systems:'ERP Portaria, Situator/City Water, WMS, Portal.',risks:'Sem rastreabilidade do início real e demora no cadastro.',accept:'Entrada registrada, horário inicial salvo e doca/área definida.'},
+  {n:'05',title:'Recebimento documental',status:'Onda 1',goal:'Importar XML/NF, validar CFOP, DACTE, lacre, dados fiscais e gerar ordem.',trigger:'NF/XML disponível e veículo autorizado.',inputs:'XML, NF física, DACTE, lacre, pedido/programação.',asis:'Baixa/manual; quando falha usa NF física; autoria nem sempre registrada.',tobe:'Importação XML com usuário, data, hora e mapa de quantidade.',systems:'WMS Recebimento, ERP Fiscal, Portal.',risks:'Bug XML GWM, NF duplicada e redigitação manual.',accept:'Ordem de Recebimento gerada sem redigitação e divergências bloqueadas.'},
+  {n:'06',title:'Conferência física',status:'Onda 1',goal:'Conferir item, volume, peso, avaria e fotos com rastreabilidade.',trigger:'Carga em doca/área de descarga.',inputs:'MRE, produtos, embalagens, peso, volume, lote, foto.',asis:'Conferência por volume; peso não confrontado.',tobe:'Bipagem item-a-item no MWMS e confronto peso × volume com regra de exceção.',systems:'MWMS, WMS, balança, fotos.',risks:'Brecha fiscal/estoque e carga divergente recebida.',accept:'Usuário, horário, item, volume, peso e foto vinculados ao recebimento.'},
+  {n:'07',title:'Não conformidade e avaria',status:'Em aberto',goal:'Registrar, bloquear, tratar, comunicar e fechar divergência com ação corretiva.',trigger:'Diferença, avaria, lacre divergente ou documentação incorreta.',inputs:'Foto, descrição, tipo, gravidade, autorização do cliente.',asis:'Checklist Fácil/e-mail; sem fluxo completo de causa-raiz.',tobe:'NC digital com status, gate de autorização e PDCA/5 Porquês.',systems:'Qualidade, WMS, Portal, BI.',risks:'Avaria misturada ao estoque bom e ausência de lição aprendida.',accept:'NC vinculada ao pedido, bloqueio aplicado e ação fechada.'},
+  {n:'08',title:'Armazenagem e Put Away',status:'Onda 1',goal:'Alocar carga no endereço correto por regra, dimensão, peso, lote, giro e restrição.',trigger:'Conferência liberada.',inputs:'SKU, lote, embalagem, peso, volumetria, capacidade, status endereço.',asis:'Conferente define onde guardar de cabeça.',tobe:'Convocação ativa e bipagem obrigatória do endereço.',systems:'WMS, MWMS, BI curva ABC.',risks:'Endereço incorreto, movimentação dupla e perda de rastreabilidade.',accept:'WMS sugere endereço, operador bipa e estoque fica disponível.'},
+  {n:'09',title:'Movimentação e reabastecimento',status:'Necessário',goal:'Controlar transferências, remanejamento, staging e reabastecimento com tarefa sistêmica.',trigger:'Demanda de separação, inventário, ocupação ou layout.',inputs:'Mapa, endereço origem/destino, equipamento, operador.',asis:'Movimentação dependente de orientação verbal.',tobe:'Tarefa no WMS/MWMS com origem, destino e usuário.',systems:'WMS, MWMS, BI.',risks:'Estoque perdido ou divergente entre físico e sistema.',accept:'Toda transferência altera status/endereço com rastreabilidade.'},
+  {n:'10',title:'Inventário e acuracidade',status:'Em aberto',goal:'Manter físico × sistêmico confiável e sustentar endereçamento e Go Live.',trigger:'Ciclo periódico, divergência, bloqueio ou migração inicial.',inputs:'Endereço, SKU, lote, saldo, status, operador.',asis:'Embrionário; crítico para tombamento inicial.',tobe:'Inventário cíclico, bloqueio de endereço e taxa de acuracidade.',systems:'WMS, MWMS, BI.',risks:'Go Live quebrar por saldo inicial incorreto.',accept:'Inventário validado antes da virada e exceções tratadas.'},
+  {n:'11',title:'Separação e picking',status:'Onda 2',goal:'Separar por onda, regra de saída e convocação ativa.',trigger:'Pedido de saída aprovado.',inputs:'Pedido/XML, regra FIFO/FEFO/LIFO/SKU/lote, rota, endereço.',asis:'Separação citada e ainda precisa subprocedimento detalhado.',tobe:'Mapa/onda com tarefa no coletor e status por etapa.',systems:'WMS Picking, MWMS.',risks:'Tempo de separação alto e pedido errado.',accept:'Pedido separado conforme regra e rastreável por usuário.'},
+  {n:'12',title:'Packing e conferência',status:'Onda 2',goal:'Conferir carga antes de sair e evitar double-check no momento errado.',trigger:'Itens separados para carregamento.',inputs:'Itens, volumes, UZ/LPN, etiqueta, pedido, foto.',asis:'Conferência e carregamento com papel e risco de erro.',tobe:'Double-check no carregamento, etiqueta legível e status de pedido.',systems:'MWMS, WMS, impressoras/etiquetas.',risks:'Carga errada e retrabalho no cliente.',accept:'Conferência final aprovada antes da liberação fiscal.'},
+  {n:'13',title:'Carregamento',status:'Onda 2',goal:'Controlar baú, placa, lacre, ordem de carregamento e status final.',trigger:'Carga conferida e veículo liberado.',inputs:'Pedido, NF, placa, lacre, foto, operador/conferente.',asis:'Etapa sem rastreabilidade plena.',tobe:'Checklist fotográfico e bloqueio se houver pendência.',systems:'MWMS, Portaria, WMS.',risks:'Saída com divergência, lacre incorreto ou pendência de NC.',accept:'Carregamento encerrado, baú/lacre/foto validados.'},
+  {n:'14',title:'Expedição',status:'POP proposto',goal:'Encerrar processo físico, liberar motorista e atualizar status ao depositante.',trigger:'Carregamento concluído e NF emitida.',inputs:'NF saída, autorização, lacre, checklist final.',asis:'Despache em papel e controle manual.',tobe:'Liberação condicionada a checklist e processo encerrado.',systems:'WMS, ERP, Portaria, Portal.',risks:'Motorista liberado com processo pendente.',accept:'Saída registrada e status final disponível.'},
+  {n:'15',title:'Faturamento e fiscal',status:'Onda 1/2',goal:'Emitir documentos corretos de armazém geral e faturar serviços operacionais.',trigger:'Entrada/saída/serviço extra realizado.',inputs:'CFOP, contrato, serviço, regra fiscal, retorno simbólico.',asis:'CFOP parcial/manual e serviços extras sem cobrança.',tobe:'CFOP parametrizado, contrato ativo e serviço faturável capturado.',systems:'ERP Senior Fiscal, Gestão de Contrato, WMS.',risks:'Risco fiscal e fuga de receita.',accept:'NF emitida sem intervenção manual e serviço extra cobrado.'},
+  {n:'16',title:'Indicadores e gestão',status:'Onda 3',goal:'Medir ciclo, nível de serviço, produtividade, acuracidade, No-Show e receita.',trigger:'Eventos registrados no WMS/MWMS/ERP.',inputs:'Horários, status, usuário, volume, pedido, cliente, ocorrência.',asis:'Indicadores praticamente inexistentes.',tobe:'Árvore de indicadores e painel por nível gerencial.',systems:'BI, WMS, ERP, Portal.',risks:'Gestão sem evidência e sem melhoria contínua.',accept:'KPIs com definição, origem do dado, fórmula e dono.'}
+];
+
+const dataItems = [
+  ['Depositante/Cliente','CNPJ, contrato, perfil fiscal/comercial, cotas, classe de serviço e SLA.'],
+  ['Produto / taxonomia','Tipo → Subtipo → Produto → Classificação; foco nos ativos e GWM.'],
+  ['SKU por embalagem','Sacos, big bags, caixas e UZ/LPN com unidade de conversão e peso.'],
+  ['Volumetria','Medidas, peso por lote/embalagem, capacidade e cubagem.'],
+  ['Endereços','Código de barras, status, capacidade, restrição física, tipo e região.'],
+  ['Equipamentos','Empilhadeira, raio de giro, garfo, capacidade e vínculo com operação.'],
+  ['Turnos e usuários','Matrícula, perfil, coletor, produtividade e rastreabilidade.'],
+  ['Fiscal/CFOP','Armazenagem, remessa, devolução, retorno simbólico, exportação e cobertura fiscal.']
+];
+
+const requirements = [
+  ['FN-01','Recebimento','Importar NF/XML e gerar Ordem de Recebimento distinguindo quantidade da NF × itens do WMS.','Alta'],
+  ['FN-02','Recebimento','Confronto peso × volume com balança integrada e regra para exceções acima do limite.','Alta'],
+  ['FN-03','Recebimento','Bipagem item-a-item no MWMS com usuário, data, hora e fotos vinculadas.','Alta'],
+  ['FN-08','Put Away','Convocação ativa por dimensão, peso, empilhamento, lote, giro e status do endereço.','Alta'],
+  ['FN-15','Expedição','Onda/mapa de separação com regra FIFO/FEFO/LIFO/SKU/lote por cliente/operação.','Alta'],
+  ['FN-20','Agendamento','Janelas, cotas por cliente, status, turnos e painel programado × executado.','Alta'],
+  ['FN-22','Agendamento','Gestão de No-Show com tolerância, notificação, contador e consequência contratual.','Alta'],
+  ['FN-26','Cadastros','Taxonomia 4 níveis, SKU por embalagem, volumetria, lote, endereço, equipamento e turno.','Alta'],
+  ['FN-32','Fiscal','CFOP de armazém geral parametrizado e emissão fiscal sem regra manual.','Alta'],
+  ['FN-40','Portal','Pré-cadastro de NF, placa, motorista, transportadora e pré-agendamento.','Média'],
+  ['FN-43','Qualidade','Registro digital de NC/divergência com tipo, foto, julgamento e ação corretiva.','Média'],
+  ['FN-47','Portaria','Cadastro de portaria no ERP e integração com Situator/City Water quando aplicável.','Média'],
+  ['FN-50','BI','Árvore de indicadores com Cycle Time, OTIF/OTD/OTS, FTR, No-Show e acuracidade.','Alta'],
+  ['FN-54','Comercial','Price/memória de cálculo versionada com DRE de contrato e alçada de margem.','Em aberto']
+];
+
+const kpis = [
+  ['Recebimento','Dock-to-Stock, tempo por etapa, % NF via XML, aderência peso × volume, divergências.'],
+  ['Programação','Programado × executado, No-Show, janela utilizada, ocupação por turno e SLA.'],
+  ['Armazenagem','Ocupação por endereço, aderência ao layout, exceções de endereçamento, curva ABC.'],
+  ['Expedição','OTIF/OTD/OTS, tempo de separação, conferência no carregamento, pedidos com divergência.'],
+  ['Inventário','Acuracidade, ajustes, divergência físico × sistêmico, endereços bloqueados.'],
+  ['Financeiro/Receita','Serviços extras capturados, DRE por contrato, margem, urgências e remanuseios.']
+];
+
+const risks = [
+  ['R-01','Parametrizar antes de desenhar o processo.','Sistema espelha o caos; prazo e custo podem estourar.','Controle: validar processo, testar em base e só então parametrizar.'],
+  ['R-02','Bugs técnicos Senior sem resolução.','Cliente âncora bloqueado e operação volta ao manual.','Controle: escalar chamados de XML, unidade de medida, etiqueta e NF duplicada.'],
+  ['R-03','Inventário inicial incorreto.','Go Live inicia com saldo/endereço errado.','Controle: janela controlada, validação física × sistêmica e plano de reversão.'],
+  ['R-04','Cliente não programa D-2.','Operação reativa e sem governança de capacidade.','Controle: cláusula contratual, portal, lembretes e cobrança de urgência.'],
+  ['R-05','CFOP manual e fluxo fiscal parcial.','Risco de multa e bloqueio da operação.','Controle: tabela fiscal parametrizada e validada pelo fiscal.'],
+  ['R-06','Etiquetas heterogêneas/ilegíveis.','Falha de UZ, bipagem e rastreabilidade.','Controle: regra por cliente no onboarding e tratamento de anomalia.']
+];
+
+const waves = [
+  ['Onda 0','Fundamentos','Processo validado, bugs escalados, inventário inicial e teste piloto.'],
+  ['Onda 1','Piloto GWM','Cadastros mestres, XML, peso × volume, bipagem, put away e portaria.'],
+  ['Onda 2','Operação multi-depositante','D-2, janelas, No-Show, picking, expedição, NC e serviços extras.'],
+  ['Onda 3','Inteligência','BI, Portal do Depositante, CRM, pricing e viabilidade.']
+];
+
+const readiness = [
+  ['red','Processos oficiais','Todos os processos críticos aprovados, treinados e com critérios de aceite.'],
+  ['red','Bugs bloqueantes','XML GWM, unidade de medida, etiqueta/UZ, NF duplicada e endereço alternativo resolvidos ou contornados.'],
+  ['yellow','Cadastros mestres','Depositantes, produtos, SKUs, volumetria, endereços, CFOPs e equipamentos completos.'],
+  ['yellow','Teste ponta a ponta','Receber, alocar, inventariar, separar, carregar, faturar e medir em base teste.'],
+  ['yellow','Operação treinada','Usuário com login individual, coletor validado e procedimento por função.'],
+  ['green','Go Live controlado','Piloto por cliente/onda, suporte definido, plano de contingência e indicadores mínimos.']
+];
+
+const questions = [
+  ['XML e quantidade','Como o Senior tratará a divergência quantidade da NF × itens/volumes da GWM?'],
+  ['Peso × volume','Qual desenho técnico da balança e qual regra para carga acima de 2.500 kg?'],
+  ['Endereço ocupado','O WMS 8.12 sugere endereço alternativo automaticamente no recebimento?'],
+  ['Etiqueta / UZ','Qual padrão de etiqueta, unitizador e exceção para depositantes que proíbem reetiquetar?'],
+  ['No-Show','Onde parametrizar tolerância, fila, notificação e cobrança de No-Show?'],
+  ['Fiscal','Quais CFOPs e fluxos de retorno simbólico precisam estar homologados antes do piloto?'],
+  ['Serviços extras','Como registrar reetiquetagem, remanuseio, urgência e descarga manual como itens faturáveis?'],
+  ['Indicadores','Quais eventos do WMS/MWMS/ERP alimentarão cada KPI e quem será dono do dado?'],
+  ['Ambientes','Qual massa de teste, roteiro, aceite e plano de reversão serão usados antes de produção?']
+];
+
+function init(){
+  buildNav(); renderStatic(); goTo(Math.min(Math.max(current,0), slideEls.length-1), false);
+  document.getElementById('prevBtn').onclick = () => goTo(current-1);
+  document.getElementById('nextBtn').onclick = () => goTo(current+1);
+  document.getElementById('themeBtn').onclick = toggleTheme;
+  document.getElementById('modeBtn').onclick = toggleMode;
+  document.getElementById('printBtn').onclick = () => window.print();
+  document.getElementById('fullscreenBtn').onclick = () => document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen();
+  document.getElementById('menuBtn').onclick = () => document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('sourcesBtn').onclick = () => document.getElementById('sourcePanel').hidden = false;
+  document.getElementById('sourceClose').onclick = () => document.getElementById('sourcePanel').hidden = true;
+  document.getElementById('modalClose').onclick = closeModal;
+  document.getElementById('modalBackdrop').addEventListener('click', e => { if(e.target.id === 'modalBackdrop') closeModal(); });
+  document.addEventListener('keydown', handleKeys);
+  document.getElementById('reqSearch').addEventListener('input', renderRequirements);
+  document.getElementById('moduleFilter').addEventListener('change', renderRequirements);
+  document.getElementById('statusFilter').addEventListener('change', renderRequirements);
+  updateModeButton();
+}
+
+function buildNav(){
+  const nav = document.getElementById('slideNav');
+  nav.innerHTML = slideEls.map((s,i)=>`<button data-index="${i}"><span class="num">${String(i+1).padStart(2,'0')}</span>${s.dataset.title}</button>`).join('');
+  nav.querySelectorAll('button').forEach(btn => btn.onclick = () => goTo(Number(btn.dataset.index)));
+}
+function goTo(i, save=true){
+  if(i<0 || i>=slideEls.length) return;
+  slideEls[current]?.classList.remove('active');
+  current = i;
+  slideEls[current].classList.add('active');
+  document.querySelectorAll('.slide-nav button').forEach((b,idx)=>b.classList.toggle('active', idx===current));
+  const pct = ((current+1)/slideEls.length)*100;
+  document.getElementById('progressBar').style.width = pct + '%';
+  document.getElementById('progressText').textContent = `Slide ${current+1} de ${slideEls.length}`;
+  document.getElementById('slideCounter').textContent = `${current+1} / ${slideEls.length}`;
+  if(save) localStorage.setItem('wms-ma-current-slide', current);
+}
+function handleKeys(e){
+  if(e.key === 'ArrowRight' || e.key === 'PageDown') goTo(current+1);
+  if(e.key === 'ArrowLeft' || e.key === 'PageUp') goTo(current-1);
+  if(e.key === 'Escape') closeModal();
+}
+function toggleTheme(){
+  const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+  document.documentElement.dataset.theme = next;
+  localStorage.setItem('wms-ma-theme', next);
+}
+function toggleMode(){
+  technical = !technical;
+  document.body.classList.toggle('technical', technical);
+  localStorage.setItem('wms-ma-mode', technical ? 'technical' : 'executive');
+  updateModeButton();
+}
+function updateModeButton(){
+  document.getElementById('modeBtn').textContent = technical ? 'Visão técnica' : 'Visão executiva';
+}
+
+function renderStatic(){
+  document.getElementById('painMap').innerHTML = painItems.map(([icon,t,d])=>`<div class="pain-card" data-icon="${icon}"><b>${t}</b><span>${d}</span></div>`).join('');
+  document.getElementById('impactTable').innerHTML = `<div class="impact-row header"><div>Problema</div><div>Consequência</div><div>Risco empresarial</div></div>` + impacts.map(r=>`<div class="impact-row"><div>${r[0]}</div><div>${r[1]}</div><div>${r[2]}</div></div>`).join('');
+  document.getElementById('flow').innerHTML = flowData.map((p,i)=>`<button class="flow-step" data-flow="${i}"><span class="tag-mini">${p.status}</span><b>${p.n} · ${p.title}</b><span>${p.goal}</span></button>`).join('');
+  document.querySelectorAll('[data-flow]').forEach(el=>el.onclick = () => openFlow(Number(el.dataset.flow)));
+  document.getElementById('dataGrid').innerHTML = dataItems.map(d=>`<div class="data-card"><b>${d[0]}</b><span>${d[1]}</span></div>`).join('');
+  const modules = [...new Set(requirements.map(r=>r[1]))];
+  document.getElementById('moduleFilter').innerHTML += modules.map(m=>`<option>${m}</option>`).join('');
+  renderRequirements();
+  document.getElementById('kpiTree').innerHTML = kpis.map(k=>`<div class="kpi-node"><b>${k[0]}</b><span>${k[1]}</span><small class="badge open">Dado a capturar</small></div>`).join('');
+  renderRadar();
+  document.getElementById('riskBoard').innerHTML = risks.map(r=>`<div class="risk-card"><b>${r[0]} · ${r[1]}</b><p>${r[2]}</p><small>${r[3]}</small></div>`).join('');
+  renderGantt();
+  document.getElementById('roadmapCards').innerHTML = waves.map(w=>`<div class="road-card"><b>${w[0]} · ${w[1]}</b><p>${w[2]}</p></div>`).join('');
+  document.getElementById('readiness').innerHTML = readiness.map(r=>`<div class="ready-card"><b><span class="light ${r[0]}"></span>${r[1]}</b><p>${r[2]}</p></div>`).join('');
+  document.getElementById('consultantGrid').innerHTML = questions.map(q=>`<div class="consult-card"><b>${q[0]}</b><span>${q[1]}</span></div>`).join('');
+}
+
+function renderRequirements(){
+  const term = document.getElementById('reqSearch').value.toLowerCase();
+  const mod = document.getElementById('moduleFilter').value;
+  const status = document.getElementById('statusFilter').value;
+  const rows = requirements.filter(r => (mod==='all'||r[1]===mod) && (status==='all'||r[3]===status) && r.join(' ').toLowerCase().includes(term));
+  document.getElementById('reqTable').innerHTML = rows.map(r=>`<div class="req-row"><b>${r[0]}</b><span>${r[1]}</span><span>${r[2]}</span><div class="priority ${r[3].replace(' ','-')}">${r[3]}</div></div>`).join('') || '<div class="callout warn">Nenhum requisito encontrado.</div>';
+}
+
+function openFlow(i){
+  const p = flowData[i];
+  document.getElementById('modalContent').innerHTML = `<span class="eyebrow">Etapa ${p.n}</span><h2>${p.title}</h2><div class="modal-grid">
+    ${box('Objetivo', p.goal)}${box('Gatilho de início', p.trigger)}${box('Entradas', p.inputs)}${box('AS-IS', p.asis)}${box('TO-BE', p.tobe)}${box('Sistemas envolvidos', p.systems)}${box('Riscos', p.risks)}${box('Critério de aceite', p.accept)}
+  </div><p class="muted"><b>Fonte:</b> Análise P.O. — mapeamento AS-IS → TO-BE, funcionalidades, backlog e riscos.</p>`;
+  document.getElementById('modalBackdrop').hidden = false;
+}
+function box(t,v){return `<div class="modal-box"><b>${t}</b><span>${v}</span></div>`}
+function closeModal(){document.getElementById('modalBackdrop').hidden = true;}
+
+function renderRadar(){
+  const labels = ['Processos','Dados','Integrações','Fiscal','Governança','Indicadores'];
+  const values = [2,1.5,1.3,2,2,1];
+  const max = 4, cx=150, cy=150, r=110;
+  const pts = (scale) => labels.map((_,i)=>{
+    const a = -Math.PI/2 + i*2*Math.PI/labels.length;
+    return [cx + Math.cos(a)*r*scale, cy + Math.sin(a)*r*scale];
+  }).map(p=>p.join(',')).join(' ');
+  const axes = labels.map((l,i)=>{
+    const a = -Math.PI/2 + i*2*Math.PI/labels.length;
+    const x = cx + Math.cos(a)*r*1.18, y = cy + Math.sin(a)*r*1.18;
+    const x2 = cx + Math.cos(a)*r, y2 = cy + Math.sin(a)*r;
+    return `<line x1="${cx}" y1="${cy}" x2="${x2}" y2="${y2}" stroke="rgba(0,156,168,.18)"/><text x="${x}" y="${y}" text-anchor="middle">${l}</text>`;
+  }).join('');
+  const valPts = labels.map((_,i)=>{
+    const a = -Math.PI/2 + i*2*Math.PI/labels.length;
+    return [cx + Math.cos(a)*r*(values[i]/max), cy + Math.sin(a)*r*(values[i]/max)];
+  }).map(p=>p.join(',')).join(' ');
+  document.getElementById('radar').innerHTML = `<svg viewBox="0 0 300 300" role="img" aria-label="Radar de maturidade qualitativa">
+    <polygon class="bg" points="${pts(1)}"/><polygon class="bg" points="${pts(.75)}"/><polygon class="bg" points="${pts(.5)}"/><polygon class="bg" points="${pts(.25)}"/>${axes}<polygon class="val" points="${valPts}"/>
+  </svg>`;
+}
+
+function renderGantt(){
+  const lefts = [4, 28, 52, 76];
+  const widths = [22,22,22,20];
+  document.getElementById('gantt').innerHTML = waves.map((w,i)=>`<div class="gantt-item" style="left:${lefts[i]}%;width:${widths[i]}%"><b>${w[0]}</b><span>${w[1]}<br>${w[2]}</span></div>`).join('');
+}
+
+init();
+
+</script>
+</body>
+</html>
